@@ -246,9 +246,9 @@
 
 <nav id="nav">
   <div class="wrap nav-in">
-    <a href="#home" class="logo">Rakib<span>@</span>NullX-D:~$</a>
+    <a href="home" class="logo">Rakib<span>@</span>NullX-D:~$</a>
     <div class="links" id="links">
-      <a href="#home">Home</a>
+      <a href="home">Home</a>
       <a href="#about">About</a>
       <a href="#work">What I do</a>
       <a href="#achievements">Achievements</a>
@@ -475,6 +475,32 @@
   const links=document.getElementById('links');
   document.getElementById('menuBtn').onclick=()=>links.classList.toggle('open');
   links.querySelectorAll('a').forEach(a=>a.onclick=()=>links.classList.remove('open'));
+
+  // navigation & /home clean URL routing
+  function getPortfolioBase(){
+    const p=window.location.pathname.replace(/\/(home|index\.html)?\/?$/, '');
+    return p===''?'/portfolio':p;
+  }
+  document.querySelectorAll('a[href="home"], a[href="#home"], .logo').forEach(el=>{
+    el.addEventListener('click',e=>{
+      e.preventDefault();
+      window.scrollTo({top:0,behavior:'smooth'});
+      const base=getPortfolioBase();
+      history.pushState(null,'',base+'/home');
+    });
+  });
+  document.querySelectorAll('.links a').forEach(a=>{
+    const href=a.getAttribute('href');
+    if(href&&href.startsWith('#')&&href!=='#home'){
+      a.addEventListener('click',e=>{
+        e.preventDefault();
+        const target=document.querySelector(href);
+        if(target)target.scrollIntoView({behavior:'smooth'});
+        const base=getPortfolioBase();
+        history.pushState(null,'',base+'/'+href);
+      });
+    }
+  });
   // reveal
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(n=>io.observe(n));
