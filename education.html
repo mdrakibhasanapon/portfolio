@@ -479,8 +479,7 @@
   // navigation & clean URL routing (without # hash)
   const routes=['home','about','work','achievements','education','contact'];
   function getPortfolioBase(){
-    const p=window.location.pathname.replace(new RegExp('/('+routes.join('|')+'|index\\.html)?/?$'), '');
-    return p===''?'/portfolio':p;
+    return window.location.pathname.startsWith('/portfolio') ? '/portfolio' : '';
   }
   function navigateTo(route){
     const base=getPortfolioBase();

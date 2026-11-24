@@ -6,11 +6,12 @@
   <script>
     (function(){
       var p = window.location.pathname;
+      var base = p.startsWith('/portfolio') ? '/portfolio' : '';
       var match = p.match(/\/(home|about|work|achievements|education|contact)\/?$/i);
       if (match) {
-        window.location.replace('/portfolio/' + match[1].toLowerCase());
+        window.location.replace(base + '/' + match[1].toLowerCase());
       } else {
-        window.location.replace('/portfolio/');
+        window.location.replace(base + '/');
       }
     })();
   </script>
