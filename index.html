@@ -249,11 +249,11 @@
     <a href="home" class="logo">Rakib<span>@</span>NullX-D:~$</a>
     <div class="links" id="links">
       <a href="home">Home</a>
-      <a href="#about">About</a>
-      <a href="#work">What I do</a>
-      <a href="#achievements">Achievements</a>
-      <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
+      <a href="about">About</a>
+      <a href="work">What I do</a>
+      <a href="achievements">Achievements</a>
+      <a href="education">Education</a>
+      <a href="contact">Contact</a>
     </div>
     <div class="nav-r">
       <button class="theme-btn" id="themeBtn" aria-label="Toggle light and dark mode" title="Toggle theme">
@@ -275,7 +275,7 @@
       <p class="typed mono"><span id="typed"></span><span class="caret"></span></p>
       <p class="lead">I break things to understand how they work, then build things that are hard to break. I'm a CSE student at Daffodil International University who spends weekends chasing flags and weekdays shipping full-stack apps.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#achievements">See my achievements
+        <a class="btn btn-primary" href="achievements">See my achievements
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn-ghost" href="https://github.com/mdrakibhasanapon" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.42c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
@@ -476,29 +476,50 @@
   document.getElementById('menuBtn').onclick=()=>links.classList.toggle('open');
   links.querySelectorAll('a').forEach(a=>a.onclick=()=>links.classList.remove('open'));
 
-  // navigation & /home clean URL routing
+  // navigation & clean URL routing (without # hash)
+  const routes=['home','about','work','achievements','education','contact'];
   function getPortfolioBase(){
-    const p=window.location.pathname.replace(/\/(home|index\.html)?\/?$/, '');
+    const p=window.location.pathname.replace(new RegExp('/('+routes.join('|')+'|index\\.html)?/?$'), '');
     return p===''?'/portfolio':p;
   }
-  document.querySelectorAll('a[href="home"], a[href="#home"], .logo').forEach(el=>{
-    el.addEventListener('click',e=>{
-      e.preventDefault();
+  function navigateTo(route){
+    const base=getPortfolioBase();
+    history.pushState(null,'',base+'/'+route);
+    if(route==='home'){
       window.scrollTo({top:0,behavior:'smooth'});
-      const base=getPortfolioBase();
-      history.pushState(null,'',base+'/home');
-    });
-  });
-  document.querySelectorAll('.links a').forEach(a=>{
-    const href=a.getAttribute('href');
-    if(href&&href.startsWith('#')&&href!=='#home'){
+    } else {
+      const target=document.getElementById(route);
+      if(target)target.scrollIntoView({behavior:'smooth'});
+    }
+  }
+  document.querySelectorAll('a[href]').forEach(a=>{
+    const raw=a.getAttribute('href');
+    if(!raw)return;
+    const clean=raw.replace(/^#/, '');
+    if(routes.includes(clean)){
       a.addEventListener('click',e=>{
         e.preventDefault();
-        const target=document.querySelector(href);
-        if(target)target.scrollIntoView({behavior:'smooth'});
-        const base=getPortfolioBase();
-        history.pushState(null,'',base+'/'+href);
+        navigateTo(clean);
       });
+    }
+  });
+  window.addEventListener('load',()=>{
+    const p=window.location.pathname;
+    const match=p.match(new RegExp('/('+routes.join('|')+')/?$'));
+    if(match&&match[1]!=='home'){
+      const target=document.getElementById(match[1]);
+      if(target)setTimeout(()=>target.scrollIntoView({behavior:'smooth'}),150);
+    }
+  });
+  window.addEventListener('popstate',()=>{
+    const p=window.location.pathname;
+    const match=p.match(new RegExp('/('+routes.join('|')+')/?$'));
+    const route=match?match[1]:'home';
+    if(route==='home'){
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else {
+      const target=document.getElementById(route);
+      if(target)target.scrollIntoView({behavior:'smooth'});
     }
   });
   // reveal

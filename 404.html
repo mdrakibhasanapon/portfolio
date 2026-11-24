@@ -6,8 +6,9 @@
   <script>
     (function(){
       var p = window.location.pathname;
-      if (p.indexOf('/home') !== -1) {
-        window.location.replace('/portfolio/home');
+      var match = p.match(/\/(home|about|work|achievements|education|contact)\/?$/i);
+      if (match) {
+        window.location.replace('/portfolio/' + match[1].toLowerCase());
       } else {
         window.location.replace('/portfolio/');
       }
