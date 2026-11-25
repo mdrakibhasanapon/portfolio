@@ -89,10 +89,6 @@
   .btn-primary:hover{background:#ff8d4d}
   .btn-ghost{border:1px solid var(--line);background:var(--bg-2)}
   .btn-ghost:hover{border-color:var(--hover)}
-  .btn-whatsapp{border:1px solid rgba(37,211,102,.35);background:rgba(37,211,102,.12);color:#25d366}
-  .btn-whatsapp:hover{background:#25d366;color:#0b0d10;border-color:#25d366}
-  [data-theme="light"] .btn-whatsapp{background:rgba(37,211,102,.12);color:#0e8838;border-color:rgba(37,211,102,.4)}
-  [data-theme="light"] .btn-whatsapp:hover{background:#25d366;color:#ffffff}
   .btn svg{width:18px;height:18px}
 
   .portrait{position:relative;isolation:isolate;justify-self:center;width:min(320px,100%);margin:10px 0 36px}
@@ -422,15 +418,9 @@
         <a class="btn btn-primary" href="mailto:mdrakibhasanapon.cse@gmail.com">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
           Email me</a>
-        <a class="btn btn-whatsapp" href="https://wa.me/8801716621681" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.888 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.05 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp</a>
         <a class="btn btn-ghost" href="https://github.com/mdrakibhasanapon" target="_blank" rel="noopener">Find me on GitHub</a>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px">
-        <div class="mail-row" style="margin-top:0"><span class="mono">mdrakibhasanapon.cse@gmail.com</span><button class="copy-btn" id="copyBtn">copy</button></div>
-        <div class="mail-row" style="margin-top:0"><span class="mono">+880 1716-621681</span><button class="copy-btn" id="copyPhoneBtn">copy</button></div>
-      </div>
+      <div class="mail-row"><span class="mono">mdrakibhasanapon.cse@gmail.com</span><button class="copy-btn" id="copyBtn">copy</button></div>
     </div>
   </div>
 </section>
@@ -602,17 +592,10 @@
     const r=document.documentElement,n=r.dataset.theme==='light'?'dark':'light';
     r.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}
   };
-  // copy buttons
+  // copy email
   document.getElementById('copyBtn').onclick=async e=>{
     const b=e.currentTarget;
     try{await navigator.clipboard.writeText('mdrakibhasanapon.cse@gmail.com');b.textContent='copied ✓'}
-    catch(err){b.textContent='select & copy'}
-    setTimeout(()=>b.textContent='copy',1800);
-  };
-  const cpPhone=document.getElementById('copyPhoneBtn');
-  if(cpPhone)cpPhone.onclick=async e=>{
-    const b=e.currentTarget;
-    try{await navigator.clipboard.writeText('+8801716621681');b.textContent='copied ✓'}
     catch(err){b.textContent='select & copy'}
     setTimeout(()=>b.textContent='copy',1800);
   };
